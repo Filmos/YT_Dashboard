@@ -16,7 +16,7 @@ var fullData
   $(document).on('click', '.btn-takeout-import', function(e) {
     var errorOccured = false
     
-    let datasetName = $('#datasetName').val()
+    var datasetName = $('#datasetName').val()
     if(!datasetName) {
       errorOccured = true
       $('#datasetName + .alert').show()
@@ -47,13 +47,54 @@ var fullData
 
   function parseFile(contents) {
     try {
-      fullData = JSON.parse(contents)
-      console.log(fullData);
+      var data = JSON.parse(contents)
+      
+      data = data.filter(function(v) {return v.time && v.titleUrl && v.titleUrl.indexOf("watch?v=")!=-1})
+      if(data.length == 0) throw "Dataset is empty or invalid"
+      
+      var payload = {}
+      data = data.map(function(v) {
+        var ret = {
+          id: v.titleUrl.slice(v.titleUrl.indexOf("watch?v=")+8),
+          time: v.time
+        }
+        payload[ret.id] = true
+        return ret
+      })
+      var keys = Object.keys(payload)
       
       fileToLoad = ""
       $("#takeout-file-selector").find(':text').val("")
       $("#datasetName").val("")
       $('#importDatasetModal').modal('hide')
+      
+      var onFinished = function(apiData) {
+        $('#importProgressModal').modal('hide')
+        setTimeout(function(){$('#importProgressModal').modal('hide')}, 1000) // Prevents softlock due to very fast responses
+        data = data.filter(function(v) {return apiData[v.id]})
+                   .map(function(v) {return {...apiData[v.id], ...v}})
+        fullData = data
+        updateAllCharts(data)
+      }
+      
+      var onFailed = function(err) {
+        $('#importProgressModal').modal('hide')
+        setTimeout(function(){$('#importProgressModal').modal('hide')}, 1000) // Prevents softlock due to very fast responses
+        
+        $('#importErrorModal .error-message').html(err.code+':\n'+err.message)
+        $('#importErrorModal').modal('show')
+        
+      }
+      
+      var onSegment = function(perc) {
+        perc = Math.floor(perc*100)
+        $('#importProgressModal .progress-bar').css('width', perc+'%').attr('aria-valuenow', perc).html(perc+'%');  
+      }
+      onSegment(0)
+      $('#importProgressModal').modal({backdrop: 'static', keyboard: false})
+      
+      getDataFromAPI(Object.keys(payload).slice(0, 140), onFinished, onFailed, onSegment) // <-------------------------------------- rate limit, trzeba później usunąć ------------------------------
+      
     }
     catch(e) {
       $('#takeout-file-selector + .alert').html("Invalid file").show()
