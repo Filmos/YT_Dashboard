@@ -93,7 +93,7 @@ var fullData
       onSegment(0)
       $('#importProgressModal').modal({backdrop: 'static', keyboard: false})
       
-      getDataFromAPI(Object.keys(payload).slice(0, 140), onFinished, onFailed, onSegment) // <-------------------------------------- rate limit, trzeba później usunąć ------------------------------
+      getDataFromAPI(Object.keys(payload).slice(0, 150), onFinished, onFailed, onSegment) // <-------------------------------------- rate limit, trzeba później usunąć ------------------------------
       
     }
     catch(e) {
