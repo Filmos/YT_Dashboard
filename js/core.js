@@ -52,5 +52,8 @@
     }, 1000, 'easeInOutExpo');
     e.preventDefault();
   });
+  
+  // Popovers
+  $('[data-toggle="popover"]').popover({html:true})
 
 })(jQuery); // End of use strict

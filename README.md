@@ -10,7 +10,6 @@ For the legacy Bootstrap 3 version of this theme, you can view the [last stable 
 * Clone this repository
 * Open cmd console in the repository folder and run `npm install`
 * Then, in the same console, run `npm i gulp`
-* [Fork, Clone, or Download on GitHub](https://github.com/StartBootstrap/startbootstrap-sb-admin-2)
 
 ### Usage
 

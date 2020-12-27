@@ -96,7 +96,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Change data
+                Dataset
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -104,7 +104,7 @@
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Temporary</span>
+                    <span>Loaded</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -122,16 +122,10 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Temporary</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Temporary</span></a>
+                <!-- <button type="button" class="nav-link" data-toggle="modal" data-target="#exampleModalCenter"> -->
+                <a class="nav-link" href="" data-toggle="modal" data-target="#importDatasetModal">
+                    <i class="fas fa-plus"></i>
+                    <span>Import</span></a>
             </li>
 
             <!-- Divider -->
@@ -150,7 +144,47 @@
 
             <!-- Main Content -->
             <div id="content">
-
+                
+                <!-- Modal -->
+                <div class="modal fade" id="importDatasetModal" tabindex="-1" role="dialog" aria-labelledby="importDatasetModalTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Import new dataset</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h6>Dataset name</h6>
+                        <input id="datasetName" type="text" class="form-control">
+                        <div class="alert alert-danger fade show" role="alert">Dataset name can't be empty</div>
+                        
+                        <h6 class="mt-3">
+                          Google takeout file 
+                          <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="JSON file with viewing history" data-content="This file can be downloaded from the <a href='https://takeout.google.com/' target='_blank'>Google Takeout site</a>. While creating the export make sure that you select YouTube viewing history and that you change its format to JSON.">
+                            <i class="far fa-question-circle"></i>
+                          </a>
+                        </h6>
+                        <div class="input-group" id="takeout-file-selector">
+                            <span class="input-group-btn">
+                                <span class="btn btn-primary btn-file">
+                                    Browse&hellip; <input type="file" single>
+                                </span>
+                            </span>
+                            <input type="text" class="form-control" readonly>
+                        </div>
+                        <div class="alert alert-danger fade show" role="alert"></div>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-takeout-import">Import</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -447,8 +481,6 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="">
                                     </div>
                                     <p>Add some quality, svg illustrations to your project courtesy of <a
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
@@ -493,26 +525,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -521,12 +533,13 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/core.min.js"></script>
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
+    <script src="js/file-loading.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
