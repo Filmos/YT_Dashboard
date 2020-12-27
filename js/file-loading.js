@@ -24,7 +24,7 @@ var fullData
     
     if(!fileToLoad) {
       errorOccured = true
-      $('#takeout-file-selector + .alert').html("Select a file").show()
+      $('#takeout-file-selector + .alert').text("Select a file").show()
     }
     
     if(errorOccured) return
@@ -34,7 +34,7 @@ var fullData
       reader.readAsText(fileToLoad);
     }
     catch(e) {
-      $('#takeout-file-selector + .alert').html("Couldn't load file").show()
+      $('#takeout-file-selector + .alert').text("Couldn't load file").show()
       console.error(e)
     }
   });
@@ -64,6 +64,7 @@ var fullData
       var keys = Object.keys(payload)
       
       fileToLoad = ""
+      var datasetName = $("#datasetName").val()
       $("#takeout-file-selector").find(':text').val("")
       $("#datasetName").val("")
       $('#importDatasetModal').modal('hide')
@@ -73,31 +74,30 @@ var fullData
         setTimeout(function(){$('#importProgressModal').modal('hide')}, 1000) // Prevents softlock due to very fast responses
         data = data.filter(function(v) {return apiData[v.id]})
                    .map(function(v) {return {...apiData[v.id], ...v}})
-        fullData = data
-        updateAllCharts(data)
+        newDatasetImported(datasetName, data)
       }
       
       var onFailed = function(err) {
         $('#importProgressModal').modal('hide')
         setTimeout(function(){$('#importProgressModal').modal('hide')}, 1000) // Prevents softlock due to very fast responses
         
-        $('#importErrorModal .error-message').html(err.code+':\n'+err.message)
+        $('#importErrorModal .error-message').text(err.code+':\n'+err.message)
         $('#importErrorModal').modal('show')
         
       }
       
       var onSegment = function(perc) {
         perc = Math.floor(perc*100)
-        $('#importProgressModal .progress-bar').css('width', perc+'%').attr('aria-valuenow', perc).html(perc+'%');  
+        $('#importProgressModal .progress-bar').css('width', perc+'%').attr('aria-valuenow', perc).text(perc+'%');  
       }
       onSegment(0)
       $('#importProgressModal').modal({backdrop: 'static', keyboard: false})
       
-      getDataFromAPI(Object.keys(payload).slice(0, 150), onFinished, onFailed, onSegment) // <-------------------------------------- rate limit, trzeba później usunąć ------------------------------
+      getDataFromAPI(Object.keys(payload), onFinished, onFailed, onSegment)
       
     }
     catch(e) {
-      $('#takeout-file-selector + .alert').html("Invalid file").show()
+      $('#takeout-file-selector + .alert').text("Invalid file").show()
       console.error(e)
     }
   }
