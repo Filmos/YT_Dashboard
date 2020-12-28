@@ -9,6 +9,9 @@
       font-size: 0.65rem;
       color: $gray-500;
     }
+    &.dropdown-menu-thin {
+      min-width: auto;
+    }
   }
 }
 

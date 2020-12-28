@@ -68,9 +68,8 @@ var SELECTED_DATATYPE
   tidyDATATYPES_DEFINITIONS()
 
   function buildDatatypeMenu() {
-    var menu = $('#collapseDatatypes div')
+    var menu = $('#collapseDatatypes .collapse-inner')
     for(var k in DATATYPES_DEFINITIONS) {
-      var datatype = DATATYPES_DEFINITIONS[k]
       var a = document.createElement('a')
       a.textContent = k
       a.href = "#"

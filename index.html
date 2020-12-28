@@ -68,37 +68,53 @@
                 Filters
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Temporary</span>
+            <!-- Nav Item - Filter Template -->
+            <li class="nav-item" id="filterTemplate">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#TMPCollapse"
+                    aria-expanded="true" aria-controls="TMPCollapse">
+                    <i class="fas fa-bug"></i>
+                    <span>ERROR</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                <div id="TMPCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white pt-2 pb-1 collapse-inner collapse-inner-input rounded">
+                        <div class="mx-2 mt-1">
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="TMPDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu dropdown-menu-thin" aria-labelledby="TMPDropdown">
+                                  <a class="dropdown-item" switch-to="0" href="#">&gt;</a>
+                                  <a class="dropdown-item" switch-to="1" href="#">&lt;</a>
+                                  <a class="dropdown-item" switch-to="2" href="#">&gt; and &lt;</a>
+                                  <a class="dropdown-item" switch-to="3" href="#">&gt; or &lt;</a>
+                                </div>
+                              </div>
+                            </div>
+                            <input type="text" class="form-control first-filter-input" placeholder="Minimum" aria-label="Minimum">
+                          </div>
+                          <div class="input-group second-filter">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"></span>
+                            </div>
+                            <input type="text" class="form-control second-filter-input" placeholder="Maximum" aria-label="Maximum">
+                          </div>
+                          <div class="mt-1"><a href="#" class="text-danger font-weight-bold delete-button">Remove filter</a></div>
+                        </div>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Temporary</span>
+            <!-- Nav Item - New Filter Menu -->
+            <li id="newFilterMenu" class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNewFilter"
+                    aria-expanded="true" aria-controls="collapseNewFilter">
+                    <i class="fas fa-plus"></i>
+                    <span>New filter</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="collapseNewFilter" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
+                        <h6 class="collapse-header">Filter by:</h6>
                     </div>
                 </div>
             </li>
@@ -249,10 +265,9 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4"></div>
                       
-                      
+                    
                     <!-- Minimum/Median/Maximum Row -->
                     <div id="MMM-Row" class="row">
 
@@ -570,6 +585,7 @@
     <script src="js/youtube-api.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/datatypes-definitions.js"></script>
+    <script src="js/filters.js"></script>
     <script src="js/dataset-memory.js"></script>
     <script src="js/file-loading.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
