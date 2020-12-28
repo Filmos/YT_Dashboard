@@ -1,9 +1,7 @@
-var filterIdCounter = 0
 function newFilter(name) {
   var copy = $('#filterTemplate').clone(true)
   var datatype = DATATYPES_DEFINITIONS[name]
-  let id = "filter-"+name.toLowerCase().replace(/ /g, "-")+"-"+filterIdCounter
-  filterIdCounter++
+  let id = "filter-"+name.toLowerCase().replace(/ /g, "-")
   copy.attr('id', id)
   copy.attr('filter-by', name)
   
