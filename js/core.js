@@ -55,5 +55,12 @@
   
   // Popovers
   $('[data-toggle="popover"]').popover({html:true})
+  
+  // Silence iframes
+  $("iframe").each(function() {
+    this.contentWindow.console.log = function() {};
+    this.contentWindow.console.warn = function() {};
+    this.contentWindow.console.error = function() {};
+  });
 
 })(jQuery); // End of use strict
