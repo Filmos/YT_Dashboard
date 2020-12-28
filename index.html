@@ -39,13 +39,25 @@
             </div>
 
             <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Displayed
+            </div>
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Statistic to display</span></a>
+            <li class="nav-item" id="datatypeSelector">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDatatypes"
+                    aria-expanded="true" aria-controls="collapseDatatypes">
+                    <i class="fas fa-bug"></i>
+                    <span>Nothing loaded</span>
+                </a>
+                <div id="collapseDatatypes" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Data types:</h6>
+                    </div>
+                </div>
             </li>
 
             <!-- Divider -->
@@ -107,14 +119,16 @@
                     <span>Profiles</span>
                 </a>
                 <div id="collapseDatasets" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded"></div>
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Loaded profiles:</h6>
+                    </div>
                 </div>
             </li>
 
             <!-- Nav Item - Import -->
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#importDatasetModal">
-                    <i class="fas fa-plus"></i>
+                    <i class="fas fa-file-import"></i>
                     <span>Import</span></a>
             </li>
 
@@ -601,6 +615,7 @@
     <!-- Page level custom scripts -->
     <script src="js/youtube-api.js"></script>
     <script src="js/charts.js"></script>
+    <script src="js/datatypes-definitions.js"></script>
     <script src="js/dataset-memory.js"></script>
     <script src="js/file-loading.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>

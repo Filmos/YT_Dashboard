@@ -1,4 +1,3 @@
-var fullData
 (function($) {
   "use strict"; // Start of use strict
   

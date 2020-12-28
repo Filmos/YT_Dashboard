@@ -1,5 +1,3 @@
-$ = jQuery
-
 currentlyOpenDataset = ""
 function newDatasetImported(name, data) {
   console.log("Saving dataset to memory: "+name)
@@ -10,8 +8,9 @@ function newDatasetImported(name, data) {
 }
 
 function loadDatasetFromArray(data) {
-  fullData = data
-  updateAllCharts(data)
+  data = parseDatatypes(data)
+  FULL_DATA = data
+  updateAllCharts()
 }
 
 function loadDatasetFromMemory(name) {
@@ -48,7 +47,7 @@ function removeDatasetFromMemory(name) {
 
 function updateDatasetMenu() {
   var menu = $('#collapseDatasets div')
-  menu.empty()
+  menu.find('a').remove()
   
   for(var datasetName of Object.keys(localStorage)) {
     var a = document.createElement('a')
@@ -75,7 +74,7 @@ function updateDatasetMenu() {
 }
 
 updateDatasetMenu()
-if(Object.keys(localStorage)) loadDatasetFromMemory(Object.keys(localStorage)[0])
+if(Object.keys(localStorage)[0]) loadDatasetFromMemory(Object.keys(localStorage)[0])
 
 $(document).on('click', '.btn-confirm-deletion', function(e) {
   removeDatasetFromMemory(datasetFlaggedForDeletion)

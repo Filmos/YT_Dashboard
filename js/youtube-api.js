@@ -48,7 +48,6 @@ function getDataFromAPI(payload, onDelivered, onFailed, onSegment) {
             _apiData[vid.id] = {
               likes: vid.statistics.likeCount,
               dislikes: vid.statistics.dislikeCount,
-              //likeRatio: (vid.statistics.likeCount-vid.statistics.dislikeCount)/Math.max(1, vid.statistics.likeCount+vid.statistics.dislikeCount),
               views: vid.statistics.viewCount,
               comments: vid.statistics.commentCount,
               thumbnail: vid.snippet.thumbnails.high.url,
