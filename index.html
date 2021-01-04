@@ -164,7 +164,7 @@
 
             <!-- Main Content -->
             <div id="content">
-                
+
                 <!-- Import Modal -->
                 <div class="modal fade" id="importDatasetModal" tabindex="-1" role="dialog" aria-labelledby="importDatasetModalTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -179,9 +179,9 @@
                         <h6>Dataset name</h6>
                         <input id="datasetName" type="text" class="form-control">
                         <div class="alert alert-danger fade show" role="alert">Dataset name can't be empty</div>
-                        
+
                         <h6 class="mt-3">
-                          Google takeout file 
+                          Google takeout file
                           <a tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="JSON file with viewing history" data-content="This file can be downloaded from the <a href='https://takeout.google.com/' target='_blank'>Google Takeout site</a>. While creating the export make sure that you select YouTube viewing history and that you change its format to JSON.">
                             <i class="far fa-question-circle"></i>
                           </a>
@@ -195,7 +195,7 @@
                             <input type="text" class="form-control" readonly>
                         </div>
                         <div class="alert alert-danger fade show" role="alert"></div>
-                        
+
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -204,7 +204,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Progress Modal -->
                 <div class="modal fade" id="importProgressModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -220,7 +220,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Error Modal -->
                 <div class="modal fade" id="importErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -231,14 +231,14 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </h4>
-                        
+
                         <p class="error-message"></p>
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                
+
+
                 <!-- Confirm Deletion Modal -->
                 <div class="modal fade" id="confirmDeletionModal" tabindex="-1" role="dialog" aria-labelledby="importDatasetModalTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -260,14 +260,14 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4"></div>
-                      
-                    
+
+
                     <!-- Minimum/Median/Maximum Row -->
                     <div id="MMM-Row" class="row">
 
@@ -285,7 +285,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Median Card -->
                         <div id="MMM-Med" class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
@@ -300,7 +300,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                       <!-- Maximum Card -->
                       <div id="MMM-Max" class="col-xl-4 col-md-6 mb-4">
                           <div class="card border-left-primary shadow h-100 py-2">
@@ -315,21 +315,21 @@
                               </div>
                           </div>
                       </div>
-                        
+
                     </div>
 
                     <!-- Content Row -->
 
                     <div class="row">
 
-                        <!-- Area Chart -->
+                        <!-- Line Plot -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
+                                    <h6 class="m-0 font-weight-bold text-primary">Changes over time</h6>
+                                  <!--  <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -342,25 +342,23 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <div id="linePlot"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pie Chart -->
+                        <!-- Heatmap -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
+                                    <h6 class="m-0 font-weight-bold text-primary">Usage heatmap</h6>
+                                    <!--<div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -373,14 +371,12 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
+                                    <div id="heatmap"></div>
+                                    <!--<div class="mt-4 text-center small">
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-primary"></i> Direct
                                         </span>
@@ -389,7 +385,7 @@
                                         </span>
                                         <span class="mr-2">
                                             <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                                        </span> -->
                                     </div>
                                 </div>
                             </div>
@@ -564,6 +560,11 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Load color palettes -->
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -577,10 +578,12 @@
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="https://apis.google.com/js/api.js"></script>
-    
+
     <!-- Page level charts -->
     <script src="js/charts/mmm.js"></script>
-    
+    <script src="js/charts/linePlot.js"></script>
+    <script src="js/charts/heatMap.js"></script>
+
     <!-- Page level custom scripts -->
     <script src="js/youtube-api.js"></script>
     <script src="js/charts.js"></script>
@@ -590,6 +593,7 @@
     <script src="js/file-loading.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
 
 </body>
 
