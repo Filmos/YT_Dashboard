@@ -8,12 +8,9 @@ function updateLinePlot(dataInput) {
 
 // append the svg object to the body of the page
 var svg = d3.select("#linePlot")
-  .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+            .append("svg")
+              .attr('viewBox','-70 0 700 380' )
+              .attr('preserveAspectRatio','xMinYMin');
 
 // !!!!!!!!!!!!!!!!!!!!!!!!
 // data processing
