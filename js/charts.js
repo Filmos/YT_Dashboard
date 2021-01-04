@@ -4,4 +4,6 @@ function updateAllCharts() {
   // Tutaj powinien być kod od rysowania i aktualizowania wykresów
   var parsedData = filterData(FULL_DATA)
   updateMmmChart(parsedData)
+  updateLinePlot(parsedData)
+  updateHeatMap(parsedData)
 }
