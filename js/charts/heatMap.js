@@ -1,6 +1,6 @@
 function updateHeatMap(dataInput) {
   // make a place for a new chart
-  //d3.select("svg").remove();
+  d3.select("#heatmap svg").remove();
 
   // !!!!!!!!!!!!!!!!!!!!!!!!
   // data processing

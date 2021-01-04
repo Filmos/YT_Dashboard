@@ -1,6 +1,6 @@
 function updateLinePlot(dataInput) {
   // make a place for a new chart
-  //d3.select("svg").remove();
+  d3.select("#linePlot svg").remove();
 
   var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 700 - margin.left - margin.right,
