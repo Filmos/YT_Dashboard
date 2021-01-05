@@ -26,6 +26,11 @@ var DATATYPES_DEFINITIONS = {
     color: "danger"
   },
   
+  "Like to dislike ratio": {
+    formula: v => ((v.likes||0)-(v.dislikes||0))/(Math.max(1, (v.likes||0)*1+(v.dislikes||0)*1))*10,
+    icon: "far fa-comment"
+  },
+  
   "Total comments": {
     formula: v => parseInt((v.comments||0)),
     icon: "fas fa-comment"
