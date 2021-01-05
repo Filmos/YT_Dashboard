@@ -13,8 +13,8 @@ $gray-500: #c1c1c7 !default; //??
 $gray-600: #c1c1c7 !default; // text
 $gray-700: #c1c1c7 !default; //??
 $gray-800: #c1c1c7 !default; // text bold
-$gray-900: #000000 !default; // shadows
-$black: #000 !default;
+$gray-900: #cacacf !default; // sidebar menu text
+$black: #000 !default; // shadows
 
 $blue: #ff6961 !default; // sidebar + titles
 $indigo: #6610f2 !default;
@@ -44,8 +44,8 @@ $font-weight-light: 300 !default;
 $headings-font-weight: 400 !default;
 
 // Shadows
-$box-shadow-sm: 0 0.125rem 0.25rem 0 rgba($gray-900, .2) !default;
-$box-shadow: 0 0.15rem 1.75rem 0 rgba($gray-900, .15) !default;
+$box-shadow-sm: 0 0.125rem 0.25rem 0 rgba($black, .2) !default;
+$box-shadow: 0 0.15rem 1.75rem 0 rgba($black, .15) !default;
 // $box-shadow-lg: 0 1rem 3rem rgba($black, .175) !default;
 
 // Borders Radius
