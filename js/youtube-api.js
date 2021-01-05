@@ -45,6 +45,9 @@ function getDataFromAPI(payload, onDelivered, onFailed, onSegment) {
           response.result.items.forEach(function(vid) {
             if(!vid.id || !vid.status) return
             if(vid.status.privacyStatus != "public") return
+            if(vid.statistics.viewCount > 10000 && vid.statistics.commentCount==0) console.log(vid)
+            if(!vid.status.publicStatsViewable) return
+            if(!vid.statistics.likeCount || !vid.statistics.dislikeCount || !vid.statistics.viewCount || !vid.statistics.commentCount) return
             _apiData[vid.id] = {
               likes: vid.statistics.likeCount,
               dislikes: vid.statistics.dislikeCount,
