@@ -1,7 +1,12 @@
 function updateMmmChart(data) {
   function updateCard(cardId, vid) {
-    $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(vid[SELECTED_DATATYPE]))
-    $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/"+vid.id+"?rel=0")
+    if(!vid) {
+      $('#'+cardId+' .MMM-value').text("---")
+      $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/")
+    } else {
+      $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(vid[SELECTED_DATATYPE]))
+      $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/"+vid.id+"?rel=0")
+    }
   }
   var sorted = data.sort((a, b) => {
     if(a[SELECTED_DATATYPE]-b[SELECTED_DATATYPE]!==0) return a[SELECTED_DATATYPE]-b[SELECTED_DATATYPE]
