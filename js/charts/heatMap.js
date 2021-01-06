@@ -7,13 +7,14 @@ function updateHeatMap(dataInput) {
   var dataX = d3.nest()
       .key(function(v){
         var datatmp = new Date(v.time);
-        return datatmp.getDay();
+        return datatmp.getDay() + 1;
       })
       .key(function(v){
         var datatmp = new Date(v.time);
         return datatmp.getHours();
       })
-      .rollup(v => v.length)
+      //.rollup(v => v.length)
+      .rollup(v => d3.mean(v, function(d) { return +d[SELECTED_DATATYPE]; }))
       .entries(dataInput);
       console.log(dataX);
 
@@ -26,7 +27,7 @@ function updateHeatMap(dataInput) {
   });
   console.log(dataProcessed);
 
-  for(var i = 0; i < 7; i++){
+  for(var i = 1; i < 8; i++){
     var tmpDay = dataProcessed.find(w => w.day == i);
     if (tmpDay == undefined){
       for(var j = 0; j < 24; j++){
@@ -69,26 +70,36 @@ var svg = d3.select("#heatmap")
     .range([ 0, width ])
     .domain(myGroups)
     .padding(0.05);
+
+  var weekdayNames = ["Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun."]
+
   svg.append("g")
     .style("font-size", 15)
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickSize(0))
-    .select(".domain").remove()
+    .call(d3.axisBottom(x)
+            .tickSize(0)
+            .tickFormat(function(d) { return weekdayNames[d - 1]; }))
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("text").style("fill", "#ff6961"))
 
   // Build Y scales and axis:
   var y = d3.scaleBand()
     .range([ height, 0 ])
     .domain(myVars)
     .padding(0.05);
+
   svg.append("g")
     .style("font-size", 15)
     .call(d3.axisLeft(y).tickSize(0))
-    .select(".domain").remove()
+    .call(g => g.select(".domain").remove())
+    .call(g => g.selectAll("text").style("fill", "#ff6961"))
 
+  var maxVal = d3.max(dataProcessed, function(d) { return +d.val;} );
+  console.log(maxVal);
   // Build color scale
   var myColor = d3.scaleSequential()
     .interpolator(d3.interpolateInferno)
-    .domain([1,100])
+    .domain([1, maxVal])
 
   // create a tooltip
   var tooltip = d3.select("#heatmap")
