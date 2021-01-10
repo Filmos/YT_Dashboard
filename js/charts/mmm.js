@@ -12,7 +12,7 @@ function updateMmmChart(data) {
       if(SELECTED_DATATYPE=="General") dat = "Times viewed"
       
       $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[dat].format(vid[dat]))
-      $('#'+cardId+' .MMM-sub-value').text(DATATYPES_DEFINITIONS[dat].suffixName)
+      $('#'+cardId+' .MMM-sub-value').text(" "+DATATYPES_DEFINITIONS[dat].suffixName)
     }
   }
   
