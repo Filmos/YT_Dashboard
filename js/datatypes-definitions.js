@@ -65,6 +65,7 @@ var DATATYPES_DEFINITIONS = {
       if(v>=86400) ret = Math.floor(v/86400) +"D "+ ret
       return ret
     },
+    suffixName: "",
     icon: "far fa-clock"
   }
 }
@@ -105,7 +106,7 @@ var SELECTED_DATATYPE
       filterable: true,
       selectable: true
     }
-    for(var k in DATATYPES_DEFINITIONS) DATATYPES_DEFINITIONS[k] = {...defaultVal, ...DATATYPES_DEFINITIONS[k]}
+    for(var k in DATATYPES_DEFINITIONS) DATATYPES_DEFINITIONS[k] = {suffixName: k.toLowerCase(), ...defaultVal, ...DATATYPES_DEFINITIONS[k]}
     
   }
   tidyDATATYPES_DEFINITIONS()

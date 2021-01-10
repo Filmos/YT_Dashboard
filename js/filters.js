@@ -82,7 +82,6 @@ function filterData(data) {
     
     if(type==0 || type==1) {
       let val = DATATYPES_DEFINITIONS[datatype].userParser($(this).find('.first-filter-input').val())
-      console.log(val)
       if(isNaN(val)) return
       comparator.push("(v['"+datatype+"']"+(type==0?">":"<")+val+")")
     }
