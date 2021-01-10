@@ -1,8 +1,10 @@
 // Sidebar
 .sidebar {
     width: $sidebar-collapsed-width;
+    & + div {width: calc(100% - (#{$sidebar-collapsed-width}));}
     min-height: 100vh;
-
+    z-index: 20;
+    
     .nav-item {
         position: relative;
 
@@ -121,6 +123,7 @@
 
     &.toggled {
         width: 0 !important;
+        & + div {width: 100% !important;}
         overflow: hidden;
 
         #sidebarToggle::after {
@@ -195,6 +198,7 @@
 @include media-breakpoint-up(md) {
     .sidebar {
         width: $sidebar-base-width !important;
+        & + div {width: calc(100% - (#{$sidebar-base-width}));}
 
         .nav-item {
 
@@ -276,6 +280,7 @@
         &.toggled {
             overflow: visible;
             width: $sidebar-collapsed-width !important;
+            & + div {width: calc(100% - (#{$sidebar-collapsed-width})) !important;}
 
             .nav-item {
 

@@ -7,6 +7,11 @@ html {
 
 body {
   height: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 a {
@@ -19,11 +24,19 @@ a {
 #wrapper {
   display: flex;
   #content-wrapper {
+    position: fixed;
+    right: 0;
     background-color: $gray-100;
-    width: 100%;
     overflow-x: hidden;
     #content {
-      flex: 1 0 auto;
+      flex: 1 0 auto;    
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      &::-webkit-scrollbar {width: 10px;}
+      &::-webkit-scrollbar-track {background: $gray-200;}
+      &::-webkit-scrollbar-thumb {background: fade-out($primary, 0.3);}
+      &::-webkit-scrollbar-thumb:hover {background: $primary;}
     }
   }
 }
@@ -33,28 +46,4 @@ a {
 .container-fluid {
   padding-left: $grid-gutter-width;
   padding-right: $grid-gutter-width;
-}
-
-// Scroll to top button
-.scroll-to-top {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  display: none;
-  width: 2.75rem;
-  height: 2.75rem;
-  text-align: center;
-  color: $white;
-  background: fade-out($gray-800, .5);
-  line-height: 46px;
-  &:focus,
-  &:hover {
-    color: white;
-  }
-  &:hover {
-    background: $gray-800;
-  }
-  i {
-    font-weight: 800;
-  }
 }
