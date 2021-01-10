@@ -32,7 +32,7 @@ function getDataFromAPI(payload, onDelivered, onFailed, onSegment) {
       return
     }
     fullPayload = fullPayload.slice(50)
-  
+    
     return gapi.client.youtube.videos.list({
       "part": [
         "snippet,contentDetails,statistics,status"

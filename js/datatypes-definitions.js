@@ -1,51 +1,87 @@
 var DATATYPES_DEFINITIONS = {
+  "General": {
+    icon: "fas fa-chart-area",
+    filterable: false
+  },
+  
+  "Times viewed": {
+    preFormula: (v, state) => {state[v.id] = (state[v.id]||0)+1; return state},
+    formula: (v, state) => state[v.id],
+    icon: "fas fa-redo-alt",
+    selectable: false
+  },
   "Total views": {
     formula: v => parseInt(v.views),
     icon: "fas fa-eye"
   },
   
   "Total likes": {
-    formula: v => parseInt((v.likes||0)),
-    icon: "fas fa-thumbs-up",
-    color: "success"
+    formula: v => parseInt(v.likes),
+    icon: "fas fa-thumbs-up"
   },
   "Likes per thousand views": {
-    formula: v => (v.likes||0)/v.views*1000,
-    icon: "far fa-thumbs-up",
-    color: "success"
+    formula: v => v.likes/v.views*1000,
+    icon: "far fa-thumbs-up"
   },
   
   "Total dislikes": {
-    formula: v => parseInt((v.dislikes||0)),
-    icon: "fas fa-thumbs-down",
-    color: "danger"
+    formula: v => parseInt(v.dislikes),
+    icon: "fas fa-thumbs-down"
   },
   "Dislikes per thousand views": {
-    formula: v => (v.dislikes||0)/v.views*1000,
-    icon: "far fa-thumbs-down",
-    color: "danger"
+    formula: v => v.dislikes/v.views*1000,
+    icon: "far fa-thumbs-down"
   },
   
   "Like to dislike ratio": {
-    formula: v => ((v.likes||0)-(v.dislikes||0))/(Math.max(1, (v.likes||0)*1+(v.dislikes||0)*1))*10,
-    icon: "far fa-comment"
+    formula: v => (v.likes-v.dislikes)/(Math.max(1, v.likes*1+v.dislikes*1))*10,
+    icon: "fas fa-star-half-alt"
   },
   
   "Total comments": {
-    formula: v => parseInt((v.comments||0)),
+    formula: v => parseInt(v.comments),
     icon: "fas fa-comment"
   },
   "Comments per thousand views": {
-    formula: v => (v.comments||0)/v.views*1000,
+    formula: v => v.comments/v.views*1000,
     icon: "far fa-comment"
+  },
+  
+  "Duration": {
+    formula: v => moment.duration(v.duration, moment.ISO_8601).asSeconds(),
+    userParser: v => {
+      console.log(v)
+      if(parseInt(v) == v) return parseInt(v)
+      
+      if(v.split(":").length==2) return moment.duration("0:"+v).asSeconds()
+      if(/H|M|S/i.test(v) && !/PT/i.test(v)) return moment.duration("PT"+v.toUpperCase().replace(/ /g,"")).asSeconds()
+      
+      let ret = moment.duration(v).asSeconds()
+      if(ret != 0) return ret
+    },
+    format: v => {
+      let ret = moment.utc(v*1000).format("mm:ss")
+      if(v>=3600) ret = moment.utc(v*1000).format("HH:") + ret
+      if(v>=86400) ret = Math.floor(v/86400) +"D "+ ret
+      return ret
+    },
+    icon: "far fa-clock"
   }
 }
 
 function parseDatatypes(data) {
+  var states = {}
   return data.map(v => {
+    for(var k in DATATYPES_DEFINITIONS) {
+      if(!DATATYPES_DEFINITIONS[k].preFormula) continue
+      states[k] = DATATYPES_DEFINITIONS[k].preFormula(v, states[k]||{})
+    }
+    return v
+  }).map(v => {
     var ret = {id: v.id, thumbnail: v.thumbnail, time: Date.parse(v.time)}
     for(var k in DATATYPES_DEFINITIONS) {
-      ret[k] = DATATYPES_DEFINITIONS[k].formula(v)
+      if(!DATATYPES_DEFINITIONS[k].formula) continue
+      ret[k] = DATATYPES_DEFINITIONS[k].formula(v, states[k])
       if(isNaN(ret[k])) {
         console.warn("NaN in "+k, v)
         ret[k] = 0
@@ -61,11 +97,13 @@ var SELECTED_DATATYPE
   
   function tidyDATATYPES_DEFINITIONS() {
     var defaultVal = {
+      formula: false,
       icon: "fas fa-asterisk",
       color: "primary",
-      format: num => {
-        return num.toLocaleString()
-      }
+      format: num => num.toLocaleString(),
+      userParser: parseInt,
+      filterable: true,
+      selectable: true
     }
     for(var k in DATATYPES_DEFINITIONS) DATATYPES_DEFINITIONS[k] = {...defaultVal, ...DATATYPES_DEFINITIONS[k]}
     
@@ -75,6 +113,7 @@ var SELECTED_DATATYPE
   function buildDatatypeMenu() {
     var menu = $('#collapseDatatypes .collapse-inner')
     for(var k in DATATYPES_DEFINITIONS) {
+      if(!DATATYPES_DEFINITIONS[k].selectable) continue
       var a = document.createElement('a')
       a.textContent = k
       a.href = "#"

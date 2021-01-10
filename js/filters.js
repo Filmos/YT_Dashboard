@@ -56,6 +56,7 @@ function updateNewFilterMenu() {
   let isEmpty = true
   
   for(var k in DATATYPES_DEFINITIONS) {
+    if(!DATATYPES_DEFINITIONS[k].filterable) continue
     if($('.nav-item[filter-by="'+k+'"]').length) continue
     isEmpty = false
     var a = document.createElement('a')
@@ -80,13 +81,14 @@ function filterData(data) {
     let type = $(this).attr('filter-type')
     
     if(type==0 || type==1) {
-      let val = parseInt($(this).find('.first-filter-input').val())
+      let val = DATATYPES_DEFINITIONS[datatype].userParser($(this).find('.first-filter-input').val())
+      console.log(val)
       if(isNaN(val)) return
       comparator.push("(v['"+datatype+"']"+(type==0?">":"<")+val+")")
     }
     else {
-      let val1 = parseInt($(this).find('.first-filter-input').val())
-      let val2 = parseInt($(this).find('.second-filter-input').val())
+      let val1 = DATATYPES_DEFINITIONS[datatype].userParser($(this).find('.first-filter-input').val())
+      let val2 = DATATYPES_DEFINITIONS[datatype].userParser($(this).find('.second-filter-input').val())
       if(isNaN(val1) && isNaN(val2)) return
       let com = "("
       if(!isNaN(val1)) com += "v['"+datatype+"']>"+val1
