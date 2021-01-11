@@ -42,23 +42,8 @@ function initHeatMap() {
   
   
     // Create a tooltip
-    var tooltip = d3.select("#heatmap")
-      .append("div")
-      .style("opacity", 0)
-      .attr("class", "tooltip card shadow p-1")
+    var tooltip = createThemedTooltip(d3.select("#heatmap"))
       
-    tooltip.append("div")
-           .attr("class", "tooltip-title text-primary text-uppercase font-weight-bold")
-           .style("font-size", "0.8rem")
-           .text("Median for this timeframe")
-    tooltip.append("span")
-           .attr("class", "tooltip-value text-gray-800 font-weight-bold")
-           .style("font-size", "1rem")
-    tooltip.append("span")
-           .attr("class", "tooltip-sub-value text-gray-300 font-weight-bold")
-           .style("font-size", "1rem")
-  
-  
     // Three function that change the tooltip when user hover / move / leave a cell
     var mouseover = function(d) {
       tooltip
@@ -68,8 +53,8 @@ function initHeatMap() {
     }
     var mousemove = function(d) {
       tooltip
-        .style("left", (d3.event.pageX - this.parentNode.getBoundingClientRect().x + 25) + "px")
-        .style("bottom", (this.parentNode.getBoundingClientRect().height - d3.event.pageY + this.parentNode.getBoundingClientRect().y + 25) + "px")
+        .style("left", (d3.event.pageX - this.parentNode.getBoundingClientRect().x + 20) + "px")
+        .style("bottom", (this.parentNode.getBoundingClientRect().height - d3.event.pageY + this.parentNode.getBoundingClientRect().y + 18) + "px")
       
       if(d.val === null) {
         tooltip.select(".tooltip-value").text("")

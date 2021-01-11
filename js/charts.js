@@ -11,3 +11,4 @@ function updateAllCharts() {
 }
 
 initHeatMap()
+initLinePlot()
