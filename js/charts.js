@@ -4,6 +4,16 @@ function updateAllCharts() {
   // Tutaj powinien być kod od rysowania i aktualizowania wykresów
   var parsedData = filterData(FULL_DATA)
   updateMmmChart(parsedData)
-  updateLinePlot(parsedData)
+  updateLinePlot(parsedData, 'logarithmic')
   updateHeatMap(parsedData)
+  
+    // buttons action in linePLot
+    $("#logarithmic").click(function() {
+        updateLinePlot(parsedData, 'logarithmic');
+    });
+    $("#linear").click(function() {
+        updateLinePlot(parsedData, 'linear');
+    });
+    
+    
 }
