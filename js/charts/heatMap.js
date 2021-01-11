@@ -4,7 +4,50 @@ function updateHeatMap(dataInput) {
 
   // !!!!!!!!!!!!!!!!!!!!!!!!
   // data processing
-  var dataX = d3.nest()
+  
+   if(SELECTED_DATATYPE=="General") {
+    
+     var dataX = d3.nest()
+      .key(function(v){
+        var datatmp = new Date(v.time);
+        return datatmp.getDay() + 1;
+      })
+      .key(function(v){
+        var datatmp = new Date(v.time);
+        return datatmp.getHours();
+      })
+      .rollup(v => v.length)
+      .entries(dataInput);
+      console.log(dataX);
+
+  var dataProcessed = [];
+
+  dataX.forEach(p => {
+      p.values.forEach(q => {
+        dataProcessed.push({day : p.key, hour : q.key, val : q.value});
+    });
+  });
+  console.log(dataProcessed);
+
+  for(var i = 1; i < 8; i++){
+    var tmpDay = dataProcessed.find(w => w.day == i);
+    if (tmpDay == undefined){
+      for(var j = 0; j < 24; j++){
+        dataProcessed.push({day : i, hour : j, val : 0});
+      }
+    } else {
+      for(var j = 0; j < 24; j++){
+        var tmpHour = dataProcessed.find(w => w.day == i && w.hour == j);
+        if(tmpHour == undefined){
+          dataProcessed.push({day : i, hour : j, val : 0});
+        }
+      }
+    }
+  }
+    
+  } else {
+    
+      var dataX = d3.nest()
       .key(function(v){
         var datatmp = new Date(v.time);
         return datatmp.getDay() + 1;
@@ -42,6 +85,10 @@ function updateHeatMap(dataInput) {
       }
     }
   }
+    
+  }
+  
+
 
   // !!!!!!!!!!!!!!!!!!!!!!!!
   // end of data processing
