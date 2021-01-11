@@ -1,7 +1,8 @@
 var DATATYPES_DEFINITIONS = {
   "General": {
     icon: "fas fa-chart-area",
-    filterable: false
+    filterable: false,
+    suffixName: "videos viewed"
   },
   
   "Times viewed": {

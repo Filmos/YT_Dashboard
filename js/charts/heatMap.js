@@ -80,7 +80,6 @@ function initHeatMap() {
         tooltip.select(".tooltip-sub-value").text(" "+dat.suffixName)
         
         if(SELECTED_DATATYPE == "General") {
-          tooltip.select(".tooltip-sub-value").text(" videos viewed")
           tooltip.select(".tooltip-title").text("Value for this timeframe")
         } else {
           tooltip.select(".tooltip-title").text("Median for this timeframe")
