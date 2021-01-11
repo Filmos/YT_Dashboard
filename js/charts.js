@@ -8,3 +8,6 @@ function updateAllCharts() {
   updateHeatMap(parsedData)
   updateHistogram(parsedData)
 }
+
+initHeatMap()
+initLinePlot()

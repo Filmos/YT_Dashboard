@@ -5,11 +5,6 @@ function updateHistogram(dataInput) {
 
     var dataX = dataInput.map(v => v[SELECTED_DATATYPE]);
 
-    console.log("BBBBAAAAAArtek")
-    console.log("AAAAAAAAAA");
-    console.log(dataX);
-
-
     min = d3.min(dataX);
     //console.log("M I N");
     //console.log(min);

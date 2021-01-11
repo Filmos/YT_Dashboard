@@ -91,7 +91,7 @@ function initLinePlot() {
         });
 }
 
-function updateLinePlot(dataInput, scaleType) {
+function updateLinePlot(dataInput) {
 
 // Data processing
 var dataX = d3.nest()
