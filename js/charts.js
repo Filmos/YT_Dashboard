@@ -7,3 +7,5 @@ function updateAllCharts() {
   updateLinePlot(parsedData)
   updateHeatMap(parsedData)
 }
+
+initHeatMap()

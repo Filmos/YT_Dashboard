@@ -3,7 +3,8 @@ function updateMmmChart(data) {
     $('#'+cardId+' .MMM-title').text(title)
     
     if(!vid) {
-      $('#'+cardId+' .MMM-value').text("---")
+      $('#'+cardId+' .MMM-value').text("")
+      $('#'+cardId+' .MMM-sub-value').text("---")
       $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/")
     } else {
       $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/"+vid.id+"?rel=0")

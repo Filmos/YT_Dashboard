@@ -12,11 +12,13 @@ var DATATYPES_DEFINITIONS = {
   },
   "Total views": {
     formula: v => parseInt(v.views),
+    format: num => Math.round(num||0).toLocaleString(),
     icon: "fas fa-eye"
   },
   
   "Total likes": {
     formula: v => parseInt(v.likes),
+    format: num => Math.round(num||0).toLocaleString(),
     icon: "fas fa-thumbs-up"
   },
   "Likes per thousand views": {
@@ -26,6 +28,7 @@ var DATATYPES_DEFINITIONS = {
   
   "Total dislikes": {
     formula: v => parseInt(v.dislikes),
+    format: num => Math.round(num||0).toLocaleString(),
     icon: "fas fa-thumbs-down"
   },
   "Dislikes per thousand views": {
@@ -40,6 +43,7 @@ var DATATYPES_DEFINITIONS = {
   
   "Total comments": {
     formula: v => parseInt(v.comments),
+    format: num => Math.round(num||0).toLocaleString(),
     icon: "fas fa-comment"
   },
   "Comments per thousand views": {
@@ -101,7 +105,7 @@ var SELECTED_DATATYPE
       formula: false,
       icon: "fas fa-asterisk",
       color: "primary",
-      format: num => num.toLocaleString(),
+      format: num => (num||0).toLocaleString(),
       userParser: parseInt,
       filterable: true,
       selectable: true
