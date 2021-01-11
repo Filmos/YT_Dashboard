@@ -26,6 +26,11 @@ dataX = dataX.sort((a, b) => {
 // end of data processing
 console.log(dataX)
 
+if(SELECTED_DATATYPE == "General") {
+  $('#linePlotTitle').text("Videos viewed over time")
+} else {
+  $('#linePlotTitle').text("Viewing preferences for " +SELECTED_DATATYPE.toLowerCase()+" over time")
+}
 
 var dataProcessed = [];
 for (const [key, value] of Object.entries(dataX)) {
