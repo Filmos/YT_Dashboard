@@ -114,6 +114,7 @@ function js() {
       "vendor/jquery-easing/jquery.easing.min.js",
       "vendor/chart.js/Chart.min.js",
       "js/core.js",
+      "js/tooltip.js",
       "js/charts/mmm.js",
       "js/charts/linePlot.js",
       "js/charts/heatMap.js",

@@ -180,7 +180,7 @@
                                 <div class="card-body px-2 pb-0 pt-1">
                                     <div class="row no-gutters align-items-top">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">Minimum</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">ERROR</div>
                                             <div class="d-inline h5 mb-0 font-weight-bold text-gray-800 MMM-value">ERROR</div>
                                             <div class="d-inline h5 mb-0 font-weight-bold text-gray-300 MMM-sub-value">ERROR</div>
                                             <div class="embed-responsive embed-responsive-16by9 mt-2"><iframe src="" class="embed-responsive-item MMM-video" allowfullscreen></iframe></div>
@@ -196,7 +196,7 @@
                                 <div class="card-body px-2 pb-0 pt-1">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">Median</div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">ERROR</div>
                                             <div class="d-inline h5 mb-0 font-weight-bold text-gray-800 MMM-value">ERROR</div>
                                             <div class="d-inline h5 mb-0 font-weight-bold text-gray-300 MMM-sub-value">ERROR</div>
                                             <div class="embed-responsive embed-responsive-16by9 mt-2"><iframe src="" class="embed-responsive-item MMM-video" allowfullscreen></iframe></div>
@@ -212,7 +212,7 @@
                               <div class="card-body px-2 pb-0 pt-1">
                                   <div class="row no-gutters align-items-top">
                                       <div class="col mr-2">
-                                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">Maximum</div>
+                                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 MMM-title">ERROR</div>
                                           <div class="d-inline h5 mb-0 font-weight-bold text-gray-800 MMM-value">ERROR</div>
                                           <div class="d-inline h5 mb-0 font-weight-bold text-gray-300 MMM-sub-value">ERROR</div>
                                           <div class="embed-responsive embed-responsive-16by9 mt-2"><iframe src="" class="embed-responsive-item MMM-video" allowfullscreen></iframe></div>
@@ -234,7 +234,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 id="linePlotTitle" class="m-0 font-weight-bold text-primary">Changes over time</h6>
+                                    <h6 id="linePlotTitle" class="m-0 font-weight-bold text-primary">ERROR</h6>
                                   <!--  <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -252,7 +252,11 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <canvas id="linePlot"></canvas>
+                                    
+                                    <div id="linePlotContent">
+                                            <canvas id="linePlot"></canvas>
+                                    </div>
+                                    <!-- <canvas id="linePlot"></canvas> -->
                                 </div>
                             </div>
                         </div>
@@ -261,9 +265,8 @@
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Usage heatmap</h6>
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary" id="heatMapTitle">ERROR</h6>
                                     <!--<div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
