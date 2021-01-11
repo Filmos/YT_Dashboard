@@ -6,4 +6,5 @@ function updateAllCharts() {
   updateMmmChart(parsedData)
   updateLinePlot(parsedData)
   updateHeatMap(parsedData)
+  updateHistogram(parsedData)
 }

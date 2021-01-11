@@ -117,6 +117,7 @@ function js() {
       "js/charts/mmm.js",
       "js/charts/linePlot.js",
       "js/charts/heatMap.js",
+      "js/charts/histogram.js",
       "js/youtube-api.js",
       "js/charts.js",
       "js/datatypes-definitions.js",
