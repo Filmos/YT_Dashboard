@@ -36,12 +36,7 @@ function initLinePlot() {
                         },
                         ticks: {
                             fontColor: '#ff6961', 
-                            callback: function(v, i, allV) {
-                              if(!DATATYPES_DEFINITIONS) return
-                              let rem = Math.floor((1+Math.log10(v))%1*100)
-                              if(v!==0 && (rem==95 || rem==84 || rem==69 || rem==47)) return
-                              return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v)
-                            }
+                            autoSkipPadding: 30
                         }  
                   }]
               },
@@ -136,10 +131,20 @@ if(SELECTED_DATATYPE == "General") {
   $('#linePlotTitle').text("Viewing preferences over time")
 }
 
+// Axis ticks
+function normalTicks(v, i, allV) {
+  if(!DATATYPES_DEFINITIONS) return
+  return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v)
+}
+function zeroTicks(v, i, allV) {
+  if(i == allV.length-1) return 0
+}
 
 // Update plot
 linePlotChart.data.datasets[0].data = dataProcessed
 linePlotChart.options.scales.yAxes[0].scaleLabel.labelString = SELECTED_DATATYPE=="General"?"Viewed videos":SELECTED_DATATYPE
+linePlotChart.options.scales.yAxes[0].ticks.callback = d3.max(dataProcessed, v => v.y)==0?zeroTicks:normalTicks
+
 linePlotChart.update()
 
 }
