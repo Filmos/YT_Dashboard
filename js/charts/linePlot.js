@@ -1,21 +1,39 @@
-function updateLinePlot(dataInput) {
+function updateLinePlot(dataInput, scaleType) {
 
 // !!!!!!!!!!!!!!!!!!!!!!!!
 // data processing
-var dataX = d3.nest()
+
+if(SELECTED_DATATYPE=="General") {
+    var dataX = d3.nest()
     .key(function(v){
       var datatmp = new Date(v.time);
       datatmp.setHours(0);
       datatmp.setMinutes(0);
       datatmp.setSeconds(0);
       datatmp.setMilliseconds(0);
-      return datatmp.getFullYear() + '-' + ('0' + (datatmp.getMonth()+1)).slice(-2) + '-' + ('0' + datatmp.getDate()).slice(-2);
+      return datatmp.getFullYear() + '-' + ('0' + (datatmp.getMonth()+1)).slice(-2); // + '-' + ('0' + datatmp.getDate()).slice(-2);
+      //return datatmp.getFullYear() + "-" + datatmp.getMonth() + "-" + datatmp.getDay(); // + "-" + datatmp.getHours();
+    })
+    .rollup(v => v.length)
+    .entries(dataInput); 
+} else {
+    var dataX = d3.nest()
+    .key(function(v){
+      var datatmp = new Date(v.time);
+      datatmp.setHours(0);
+      datatmp.setMinutes(0);
+      datatmp.setSeconds(0);
+      datatmp.setMilliseconds(0);
+      return datatmp.getFullYear() + '-' + ('0' + (datatmp.getMonth()+1)).slice(-2); // + '-' + ('0' + datatmp.getDate()).slice(-2);
       //return datatmp.getFullYear() + "-" + datatmp.getMonth() + "-" + datatmp.getDay(); // + "-" + datatmp.getHours();
     })
     .rollup(v => d3.mean(v, function(d) { return +d[SELECTED_DATATYPE]; }))
     .entries(dataInput);
+    
+}
 
-var dataFormat = "%Y-%m-%d";
+//var dataFormat = "%Y-%m-%d";
+var dataFormat = "%Y-%m";
 
 dataX = dataX.sort((a, b) => {
   var date1 = d3.timeParse(dataFormat)(a.key)
@@ -25,6 +43,10 @@ dataX = dataX.sort((a, b) => {
 // !!!!!!!!!!!!!!!!!!!!!!!!
 // end of data processing
 console.log(dataX)
+
+
+
+
 
 if(SELECTED_DATATYPE == "General") {
   $('#linePlotTitle').text("Videos viewed over time")
@@ -46,7 +68,10 @@ dataProcessed = dataProcessed.sort((a, b) =>{
 
 console.log(dataProcessed)
 
+var linePlotContent = document.getElementById('linePlotContent');
 
+linePlotContent.innerHTML = '&nbsp;';
+$('#linePlotContent').append('<canvas id="linePlot"><canvas>');
 
 
 var grapharea = document.getElementById("linePlot");
@@ -81,17 +106,22 @@ var chart =  new Chart(grapharea, {
                           labelString: 'Date'
                       }
                   }],
-                  yAxes: [{
+                  yAxes: [
+                        {
+                            type : String(scaleType),
                       scaleLabel: {
                           display:     true,
                           labelString: 'mean'
-                      }
-                  }]
+                      },
+                       ticks: {
+                                min: 0
+                            }
+                            
+                        }
+                ]
               }
           }
       });
-
-
 
 
 
