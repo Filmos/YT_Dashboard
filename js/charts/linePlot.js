@@ -108,7 +108,7 @@ var chart =  new Chart(grapharea, {
                   }],
                   yAxes: [
                         {
-                            type : String(scaleType),
+                            type : 'logarithmic',
                       scaleLabel: {
                           display:     true,
                           labelString: 'mean'
