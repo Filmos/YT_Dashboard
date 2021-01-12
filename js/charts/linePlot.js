@@ -105,7 +105,7 @@ var dataX = d3.nest()
   })
 
 if(SELECTED_DATATYPE=="General") dataX = dataX.rollup(v => v.length)
-else dataX = dataX.rollup(v => d3.mean(v, function(d) { return +d[SELECTED_DATATYPE]; }))
+else dataX = dataX.rollup(v => d3.median(v, function(d) { return +d[SELECTED_DATATYPE]; }))
 
 dataX = dataX.entries(dataInput)
 

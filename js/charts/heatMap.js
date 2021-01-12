@@ -114,7 +114,7 @@ function updateHeatMap(dataInput) {
       })
       
   if(SELECTED_DATATYPE == "General") dataX = dataX.rollup(v => v.length)
-  else dataX = dataX.rollup(v => d3.mean(v, function(d) { return +d[SELECTED_DATATYPE]; }))
+  else dataX = dataX.rollup(v => d3.median(v, function(d) { return +d[SELECTED_DATATYPE]; }))
       
   dataX = dataX.entries(dataInput);
 
@@ -140,11 +140,11 @@ function updateHeatMap(dataInput) {
   var minVal = d3.min(dataProcessed.filter(d => d.val != null), function(d) { return +d.val;} );
   var myColor = d3.scaleSequential()
     .interpolator(d3.interpolateInferno)
-    .domain([Math.log10(minVal), Math.log10(maxVal)])
+    .domain([Math.log10(minVal + 1), Math.log10(maxVal + 1)])
     
   // Update heatmap
   d3.select("#heatmap svg").selectAll('rect')
     .data(dataProcessed, function(d) {return d.day+':'+d.hour;})
-    .style("fill", function(d) { if(d.val===null) return 'transparent'; return myColor(Math.log10(d.val))} )
+    .style("fill", function(d) { if(d.val===null) return 'transparent'; return myColor(Math.log10(d.val + 1))} )
 
 }
