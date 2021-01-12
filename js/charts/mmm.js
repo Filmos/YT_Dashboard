@@ -5,9 +5,9 @@ function updateMmmChart(data) {
     if(!vid) {
       $('#'+cardId+' .MMM-value').text("")
       $('#'+cardId+' .MMM-sub-value').text("---")
-      $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/")
+      if($('#'+cardId+' .MMM-video').attr('src')!="https://www.youtube.com/embed/") $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/")
     } else {
-      $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/"+vid.id+"?rel=0")
+      if($('#'+cardId+' .MMM-video').attr('src')!="https://www.youtube.com/embed/"+vid.id+"?rel=0") $('#'+cardId+' .MMM-video').attr('src',"https://www.youtube.com/embed/"+vid.id+"?rel=0")
       
       let dat = SELECTED_DATATYPE
       if(SELECTED_DATATYPE=="General") dat = "Times viewed"
