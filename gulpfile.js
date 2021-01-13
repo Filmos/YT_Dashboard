@@ -13,9 +13,10 @@ const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
 const htmlmin = require('gulp-htmlmin');
-var concat = require('gulp-concat');
+const concat = require('gulp-concat');
 const babel = require('gulp-babel');
-var gulpif = require('gulp-if');
+const gulpif = require('gulp-if');
+const replace = require('gulp-replace');
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -64,6 +65,7 @@ function modules() {
     .pipe(gulp.dest('./vendor/chart.js'));
   // Font Awesome
   var fontAwesome = gulp.src('./node_modules/@fortawesome/**/*')
+    .pipe(replace('../webfonts', 'webfonts'))
     .pipe(gulp.dest('./vendor'));
   var fontAwesomeWebfonts = gulp.src('./node_modules/@fortawesome/fontawesome-free/webfonts/*')
     .pipe(gulp.dest('./dist/webfonts'));
