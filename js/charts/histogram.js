@@ -71,7 +71,7 @@ function updateHistogram(dataInput) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Number of blah blah',
+                label: 'Number of videos',
                 data: buckets,
                 backgroundColor: '#C34A36',
             }]
