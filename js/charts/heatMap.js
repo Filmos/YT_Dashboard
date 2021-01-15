@@ -146,5 +146,91 @@ function updateHeatMap(dataInput) {
   d3.select("#heatmap svg").selectAll('rect')
     .data(dataProcessed, function(d) {return d.day+':'+d.hour;})
     .style("fill", function(d) { if(d.val===null) return 'transparent'; return myColor(Math.log10(d.val + 1))} )
+    
+  continuousLegend(myColor);
 
 }
+
+
+
+
+function continuousLegend(colorscale) {
+    
+    var legendscale = d3.scaleLinear()
+        .range(colorscale.domain())
+        .domain(colorscale.domain());
+
+    var data = [];
+  
+    d3.range(colorscale.domain()[0], colorscale.domain()[1], (colorscale.domain()[1] - colorscale.domain()[0])/250).forEach(function(i) {
+        data.push({"color" : colorscale(legendscale.invert(i)), "value" : i})
+    });
+    
+    
+    var extent = d3.extent(data, d => d.value);
+    
+    var padding = 9;
+    var width = 320;
+    var innerWidth = width - (padding * 2);
+    var barHeight = 8;
+    var height = 28;
+
+    var xScale = d3.scaleLinear()
+        .range([0, innerWidth])
+        .domain(extent);
+        
+        console.log(data)
+
+    var xTicks = [];
+    xTicks.push(data[0].value);
+    xTicks.push(data[83].value);
+    xTicks.push(data[166].value);
+    xTicks.push(data[249].value);
+    
+    var maxVal = Math.pow(10, data[249].value);
+
+    var xAxis = d3.axisBottom(xScale)
+        .tickSize(barHeight * 2)
+        .tickValues(xTicks)
+        .tickFormat(d => {
+            if(maxVal < 100){
+                return Math.round(Math.pow(10, d));
+            } else {
+                return Math.pow(10, d).toExponential(1);
+            }
+        });
+        
+    d3.select("#heatmaplegend").selectAll("svg").remove();
+    var svg = d3.select("#heatmaplegend").append("svg")
+                    .attr('viewBox','-40 0 400 30' )
+                .attr('preserveAspectRatio','xMinYMin');
+    
+    
+    
+    //.attr("width", width).attr("height", height);
+    var g = svg.append("g")
+        .attr("transform", "translate(" + padding + ", 0)");
+
+    var defs = svg.append("defs");
+    
+    var linearGradient = defs
+        .append("linearGradient")
+        .attr("id", "myGradient");
+        
+    linearGradient.selectAll("stop")
+        .data(data)
+      .enter().append("stop")
+        .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+        .attr("stop-color", d => d.color);
+
+    g.append("rect")
+        .attr("width", innerWidth)
+        .attr("height", barHeight)
+        .style("fill", "url(#myGradient)");
+
+    g.append("g")
+        .call(xAxis)
+        .call(g => g.selectAll("text").style("fill", "#ff6961"))
+        .call(g => g.selectAll("path").style("stroke", "#ff6961"))
+        .call(g => g.selectAll("line").style("stroke", "#ff6961"));
+};
