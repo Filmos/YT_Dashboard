@@ -63,7 +63,7 @@ function updateHistogram(dataInput) {
         $('#histogramTitle').text("Histogram of number of" + SELECTED_DATATYPE.toLowerCase()+" over time")
     }
 
-    Chart.defaults.global.datasets.bar.categoryPercentage = 1.3;
+    Chart.defaults.global.datasets.bar.categoryPercentage = 1;
     const ctx = document.getElementById('histogram');
 
     const histogram = new Chart(ctx, {
