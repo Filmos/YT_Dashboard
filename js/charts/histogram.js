@@ -10,48 +10,60 @@ function updateHistogram(dataInput) {
     min = d3.min(dataX);
     max = d3.max(dataX);
     domain = [min,max];
-    Nbin = 10; // The number of bins
+    Nbin = 15; // The number of bins
 
     step = (max - min)/Nbin;
     buckets = [];
     labels = [];
     bucketborder = max;
-    labels.unshift(Math.round(bucketborder));
+    //labels.unshift(Math.round(bucketborder));
     bucketsize = 0;
 
     for (let i = 0; i < dataX.length ; i++){
+
         if (dataX[i] >= bucketborder){
             bucketsize += 1;
         }
-        else{
-            if (bucketsize != 0 || bucketborder > 1){
+        else {
+            if (bucketsize != 0 || bucketborder > 1) {
                 buckets.unshift(bucketsize);
-                labels.unshift(Math.round(bucketborder));
+                if (SELECTED_DATATYPE == "Like to dislike ratio"){
+                    labels.unshift(bucketborder + "<");
+                }else {
+                    labels.unshift(Math.round(bucketborder) + "<");
+                }
             }
-            //buckets.unshift(bucketsize);
             bucketsize = 0;
-            bucketborder = bucketborder/2;
-            //labels.unshift(Math.round(bucketborder));
-            //console.log(bucketborder);
+            if (SELECTED_DATATYPE === "Likes per thousand views" || SELECTED_DATATYPE === "Dislikes per thousand views" || SELECTED_DATATYPE === "Comments per thousand views" ) {
+                bucketborder = Math.round(bucketborder / 2);
+            }else if (SELECTED_DATATYPE === "Like to dislike ratio"){
+                bucketborder = bucketborder / 2;
+            //    console.log("druga")
+            //    bucketborder = bucketborder - step;
+            }else {
+                bucketborder = Math.round(bucketborder / 5);
+            }
             //i = i - 1;
         }
-        //console.log("kupa");
     }
-    buckets.unshift(bucketsize);
+    //buckets.unshift(bucketsize);
+    console.log(SELECTED_DATATYPE.toLowerCase());
+    console.log(min, max);
+    console.log(step)
     console.log("BUCKET");
     console.log(buckets);
-    //console.log(buckets.length);
     console.log("LABELS");
     console.log(labels);
-    //console.log(labels.length);
+
 //end of data processing
 
     if(SELECTED_DATATYPE == "General") {
         $('#histogramTitle').text(" ")
     } else {
-        $('#histogramTitle').text("Histogram of " +SELECTED_DATATYPE.toLowerCase()+" over time")
+        $('#histogramTitle').text("Histogram of number of" + SELECTED_DATATYPE.toLowerCase()+" over time")
     }
 
+    Chart.defaults.global.datasets.bar.categoryPercentage = 1.3;
     const ctx = document.getElementById('histogram');
 
     const histogram = new Chart(ctx, {
@@ -68,7 +80,7 @@ function updateHistogram(dataInput) {
             scales: {
                 xAxes: [{
                     display: false,
-                    barPercentage: 1.3,
+                    //barPercentage: 1.3,
                     ticks: {
                         max: 3,
                     }
