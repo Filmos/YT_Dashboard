@@ -66,6 +66,7 @@
       var datasetName = $("#datasetName").val()
       $("#takeout-file-selector").find(':text').val("")
       $("#datasetName").val("")
+      $('#importDatasetModal').removeClass('modal-lock')
       $('#importDatasetModal').modal('hide')
       
       var onFinished = function(apiData) {

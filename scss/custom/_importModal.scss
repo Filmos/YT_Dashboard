@@ -1,0 +1,14 @@
+.modal-lock {
+  ~ .modal-backdrop.show {
+    color: $gray-100;
+    opacity: 0.85;
+  }
+  
+  .close, button[data-dismiss=modal] {
+    display: none !important;
+  }
+}
+
+.modal button.close span {
+  color: $primary;
+}

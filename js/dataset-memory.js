@@ -75,6 +75,10 @@ function updateDatasetMenu() {
 
 updateDatasetMenu()
 if(Object.keys(localStorage)[0]) loadDatasetFromMemory(Object.keys(localStorage)[0])
+else {
+  $('#importDatasetModal').addClass("modal-lock")
+  $('#importDatasetModal').modal({backdrop: 'static', keyboard: false})
+}
 
 $(document).on('click', '.btn-confirm-deletion', function(e) {
   removeDatasetFromMemory(datasetFlaggedForDeletion)
