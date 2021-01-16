@@ -23,21 +23,25 @@ function initLinePlot() {
                         scaleLabel: {
                             display: true,
                             labelString: 'Date',
-                            fontColor: '#ff6961'
+                            fontColor: '#ff6961',
+                            fontSize: 16
                         },
                         ticks: {
-                            fontColor: '#ff6961'
+                            fontColor: '#ff6961',
+                            fontSize: 14
                         } 
                     }],
                     yAxes: [{
                         type : 'logarithmic',
                         scaleLabel: {
                             display: true,
-                            fontColor: '#ff6961'
+                            fontColor: '#ff6961',
+                            fontSize: 16
                         },
                         ticks: {
                             fontColor: '#ff6961', 
-                            autoSkipPadding: 30
+                            autoSkipPadding: 45,
+                            fontSize: 14
                         }  
                   }]
               },
@@ -47,12 +51,13 @@ function initLinePlot() {
 
                 custom: function(tooltipModel) {
                     // Tooltip Element
-                    var tooltipEl = d3.select('#chartjs-tooltip')
+                    var tooltipEl = d3.select('#chartjs-lineplot-tooltip')
 
                     // Create element on first render
                     if (tooltipEl.empty()) {
                         tooltipEl = createThemedTooltip(d3.select("body"))
-                          .attr("id", 'chartjs-tooltip')
+                          .attr("id", 'chartjs-lineplot-tooltip')
+                          .style("transition", 'left 0.3s, top 0.3s')
                     }
 
                     // Hide if no tooltip

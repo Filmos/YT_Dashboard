@@ -1,6 +1,104 @@
+var histogramPlot
+
+function initHistogram() {
+  // Chart.defaults.global.datasets.bar.categoryPercentage = 1;
+  const ctx = document.getElementById('histogram');
+  histogramChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          datasets: [{
+              data: [],
+              backgroundColor: '#C34A36',
+              barPercentage: 1,
+              categoryPercentage: 0.92
+          }]
+      },
+      options: {
+          responsive: true,
+          legend: {display: false},
+          scales: {
+              xAxes: [{display: false}, {
+                  ticks: {
+                      fontColor: '#ff6961',
+                      fontSize: 14
+                  },
+                  scaleLabel: {
+                      display: true,
+                      fontColor: '#ff6961',
+                      fontSize: 16
+                  },
+                  gridLines: {
+                    offsetGridLines: false
+                  }
+              }],
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true,
+                      fontColor: '#ff6961',
+                      fontSize: 14
+                  },
+                  scaleLabel: {
+                      display: true,
+                      fontColor: '#ff6961',
+                      fontSize: 16
+                  }
+              }]
+        },
+        tooltips: {
+          // Disable the on-canvas tooltip
+          enabled: false,
+
+          custom: function(tooltipModel) {
+              // Tooltip Element
+              var tooltipEl = d3.select('#chartjs-histogram-tooltip')
+
+              // Create element on first render
+              if (tooltipEl.empty()) {
+                  tooltipEl = createThemedTooltip(d3.select("body"))
+                    .attr("id", 'chartjs-histogram-tooltip')
+                    .style("transition", 'left 0.3s, top 0.3s')
+              }
+
+              // Hide if no tooltip
+              if (tooltipModel.opacity === 0) {
+                  tooltipEl.style('opacity', 0)
+                  return
+              }
+
+              // Set Text
+              if (tooltipModel.body) {
+                  var title = (tooltipModel.title || [])[0]
+                  var value = tooltipModel.body[0].lines[0]
+                  
+                  let dat = DATATYPES_DEFINITIONS[SELECTED_DATATYPE]
+                  tooltipEl.select(".tooltip-title").text(title+" "+dat.suffixName)
+                  tooltipEl.select(".tooltip-value").text(value)
+                  
+                  if(SELECTED_DATATYPE == "General") {
+                    tooltipEl.select(".tooltip-sub-value").text(" days")
+                  } else {
+                    tooltipEl.select(".tooltip-sub-value").text(" videos viewed")
+                  }
+              }
+
+              // `this` will be the overall tooltip
+              var position = this._chart.canvas.getBoundingClientRect()
+              var tooltipSize = tooltipEl.node().getBoundingClientRect()
+
+              // Display, position, and set styles for font
+              tooltipEl.style('opacity', 1)
+              tooltipEl.style('position', 'absolute')
+              tooltipEl.style('left', position.left + window.pageXOffset + tooltipModel.caretX + 'px')
+              tooltipEl.style('top', position.top + window.pageYOffset + tooltipModel.caretY - tooltipSize.height + 'px')
+          }
+      }
+    }
+  });
+}
 
 function updateHistogram(dataInput) {
 
+    // Data parsing
     if (SELECTED_DATATYPE == "General"){
         var data = d3.nest()
             .key(function(v){
@@ -14,119 +112,52 @@ function updateHistogram(dataInput) {
         data = data.rollup(v => v.length)
         data = data.entries(dataInput)
 
-        //var dataFormat = "%Y-%m-%dT";
-
         dataX=[]
         for (const [key, value] of Object.entries(data)) {
             dataX.push(value.value)
         }
-        label = "Number of days"
-
     }else{
         var dataX = dataInput.map(v => v[SELECTED_DATATYPE]);
         dataX.sort(function(a, b){return b-a});
-        label = 'Number of videos'
-
     }
 
-    ////////
+    // Splitting into buckets
+    let minVal = d3.min(dataX);
+    let maxVal = d3.max(dataX);
+    let minValLog = Math.log10(minVal+1);
+    let maxValLog = Math.log10(maxVal+1);
+    let Nbin = 15; // The number of bins
 
-    min = d3.min(dataX);
-    max = d3.max(dataX);
+    var edges
+    if(SELECTED_DATATYPE == "General") edges = d3.range(minVal,maxVal,(maxVal-minVal)/Nbin)
+    else edges = d3.range(minValLog, maxValLog,(maxValLog-minValLog)/Nbin).map(prettyPowerOf10)
 
-    domain = [min,max];
-    Nbin = 15; // The number of bins
-
-    step = (max - min)/Nbin;
-    buckets = [];
-    labels = [];
-    bucketborder = max;
-    //labels.unshift(Math.round(bucketborder));
-    bucketsize = 0;
-
-    for (let i = 0; i < dataX.length ; i++){
-
-        if (dataX[i] >= bucketborder){
-            bucketsize += 1;
-        }
-        else {
-            if (bucketsize != 0 || bucketborder > 1) {
-                buckets.unshift(bucketsize);
-                if (SELECTED_DATATYPE == "Like to dislike ratio") {
-                    labels.unshift(bucketborder + "<");
-                } else {
-                    labels.unshift(Math.round(bucketborder) + "<");
-                }
-            }
-            bucketsize = 0;
-            if (SELECTED_DATATYPE === "Likes per thousand views" || SELECTED_DATATYPE === "Dislikes per thousand views" || SELECTED_DATATYPE === "Comments per thousand views") {
-                bucketborder = Math.round(bucketborder / 2);
-            } else if (SELECTED_DATATYPE === "Like to dislike ratio") {
-                bucketborder = bucketborder / 2;
-                //    bucketborder = bucketborder - step;
-            } else if(SELECTED_DATATYPE == "General"){
-                //bucketborder = Math.round(bucketborder - step);
-                bucketborder = Math.round(bucketborder / 2);
-
-            }else {
-                bucketborder = Math.round(bucketborder / 5);
-            }
-            //i = i - 1;
-        }
-    }
-    //console.log(SELECTED_DATATYPE.toLowerCase());
-    //console.log(min, max);
-    //console.log(step)
-    //console.log("BUCKET");
-    //console.log(buckets);
-    //console.log("LABELS");
-    //console.log(labels);
-
-//end of data processing
-//graph generating
-
-
+    var buckets = d3.histogram()
+        .domain([minVal,maxVal])
+        .thresholds(edges)
+        (dataX)
+        .map(v => v.length)
+    
+    // Generating labels
+    edges.push(prettyPowerOf10(maxValLog))
+    var bucketLabels = edges.slice(0, -1).map((v, i) => "["+DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v, maxVal) + "; " + DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(edges[i+1], maxVal) + ")")
+    var tickLabels = edges.map(v => DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v, maxVal))
+    
+    
+    // Update plot title
     if(SELECTED_DATATYPE == "General") {
-        $('#histogramTitle').text("Histogram of number of watched videos")
+        $('#histogramTitle').text("Histogram of daily amount of watched videos")
     } else {
-        $('#histogramTitle').text("Histogram of number of" + SELECTED_DATATYPE.toLowerCase()+" over time")
+        $('#histogramTitle').text("Histogram of watched videos by "+SELECTED_DATATYPE.toLowerCase())
     }
+    
+    // Update plot
+    histogramChart.data.datasets[0].data = buckets
+    histogramChart.options.scales.xAxes[0].labels = bucketLabels
+    histogramChart.options.scales.xAxes[1].labels = tickLabels
+    histogramChart.options.scales.xAxes[1].scaleLabel.labelString = SELECTED_DATATYPE=="General"?"Viewed videos":SELECTED_DATATYPE
+    histogramChart.options.scales.yAxes[0].scaleLabel.labelString = SELECTED_DATATYPE=="General"?"Number of days":"Number of videos"
 
-    Chart.defaults.global.datasets.bar.categoryPercentage = 1;
-    const ctx = document.getElementById('histogram');
-
-    const histogram = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: label,
-                data: buckets,
-                backgroundColor: '#C34A36',
-            }]
-        },
-        options: {
-            scales: {
-                xAxes: [{
-                    display: false,
-                    //barPercentage: 1.3,
-                    ticks: {
-                        max: 3,
-                    }
-                }, {
-                    display: true,
-                    ticks: {
-                        autoSkip: false,
-                        max: 4,
-                    }
-                }],
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
+    histogramChart.update()
 
 }

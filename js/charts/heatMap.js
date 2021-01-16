@@ -198,7 +198,7 @@ function continuousLegend(colorscale) {
         .tickValues(xTicks)
         .tickFormat(d => {
             if(isNaN(domain[0])) return 0
-            return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(Math.pow(10, d)-1, maxVal)
+            return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(prettyPowerOf10(d), maxVal)
         });
         
     d3.select("#heatmaplegend").selectAll("svg").remove();

@@ -9,5 +9,12 @@ function updateAllCharts() {
   updateHistogram(parsedData)
 }
 
+function prettyPowerOf10(d) {
+  return Math.round(
+          (Math.pow(10, d)-1)/Math.pow(10, Math.floor(d-1))
+        )*Math.pow(10, Math.floor(d-1))
+}
+
 initHeatMap()
 initLinePlot()
+initHistogram()
