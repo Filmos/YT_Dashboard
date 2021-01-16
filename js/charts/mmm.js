@@ -14,7 +14,6 @@ function updateMmmChart(data) {
       if(SELECTED_DATATYPE=="General") dat = "Times viewed"
       
       if(maxVal == null) maxVal = vid[dat]
-      console.log(vid[dat], maxVal)
       $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[dat].format(vid[dat], maxVal))
       $('#'+cardId+' .MMM-sub-value').text(" "+DATATYPES_DEFINITIONS[dat].suffixName)
     }

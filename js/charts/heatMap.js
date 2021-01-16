@@ -164,7 +164,7 @@ function continuousLegend(colorscale) {
         .domain(domain);
 
     var data = [];
-    if(isNaN(domain[0])) {
+    if(isNaN(domain[0]) || domain[0]==domain[1]) {
       for(let i=0;i<250;i++) {data.push({"color" : "#000000", "value" : (i+1)/250})}
     }
     else {
@@ -196,9 +196,10 @@ function continuousLegend(colorscale) {
     var xAxis = d3.axisBottom(xScale)
         .tickSize(barHeight * 2)
         .tickValues(xTicks)
-        .tickFormat(d => {
-            if(isNaN(domain[0])) return 0
-            return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(prettyPowerOf10(d), maxVal)
+        .tickFormat((d, i, all) => {
+            let rounding = [Math.floor, Math.round, Math.round, Math.ceil]
+            if(domain[0]==domain[1]) return isNaN(domain[0])?0:domain[0]
+            return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(prettyPowerOf10(d, rounding[i]), maxVal)
         });
         
     d3.select("#heatmaplegend").selectAll("svg").remove();

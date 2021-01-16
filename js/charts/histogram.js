@@ -129,8 +129,8 @@ function updateHistogram(dataInput) {
     let Nbin = 15; // The number of bins
 
     var edges
-    if(SELECTED_DATATYPE == "General") edges = d3.range(minVal,maxVal,(maxVal-minVal)/Nbin)
-    else edges = d3.range(minValLog, maxValLog,(maxValLog-minValLog)/Nbin).map(prettyPowerOf10)
+    if(SELECTED_DATATYPE == "General") edges = d3.range(minVal,maxVal,Math.round((maxVal-minVal)/Nbin))
+    else edges = d3.range(minValLog, maxValLog,(maxValLog-minValLog)/Nbin).map((v, i) => prettyPowerOf10(v, i==0?(Math.floor):(Math.round)))
 
     var buckets = d3.histogram()
         .domain([minVal,maxVal])
@@ -139,7 +139,7 @@ function updateHistogram(dataInput) {
         .map(v => v.length)
     
     // Generating labels
-    edges.push(prettyPowerOf10(maxValLog))
+    edges.push(prettyPowerOf10(maxValLog, Math.ceil))
     var bucketLabels = edges.slice(0, -1).map((v, i) => "["+DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v, maxVal) + "; " + DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(edges[i+1], maxVal) + ")")
     var tickLabels = edges.map(v => DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v, maxVal))
     

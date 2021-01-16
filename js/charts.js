@@ -9,10 +9,13 @@ function updateAllCharts() {
   updateHistogram(parsedData)
 }
 
-function prettyPowerOf10(d) {
-  return Math.round(
-          (Math.pow(10, d)-1)/Math.pow(10, Math.floor(d-1))
-        )*Math.pow(10, Math.floor(d-1))
+function prettyPowerOf10(d, rounding) {
+  let num = Math.pow(10, d)-1
+  if(num == 0) return 0
+  let numOrder = Math.pow(10, Math.floor(Math.log10(num)-1))
+  
+  if(!rounding) rounding = Math.round
+  return rounding(num/numOrder)*numOrder
 }
 
 initHeatMap()
