@@ -1,3 +1,4 @@
+var heatMapMaxVal
 function initHeatMap() {
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 60},
@@ -61,7 +62,7 @@ function initHeatMap() {
         tooltip.select(".tooltip-sub-value").text("No videos viewed")
       } else {
         let dat = DATATYPES_DEFINITIONS[SELECTED_DATATYPE]
-        tooltip.select(".tooltip-value").text(dat.format(d.val))
+        tooltip.select(".tooltip-value").text(dat.format(d.val, heatMapMaxVal))
         tooltip.select(".tooltip-sub-value").text(" "+dat.suffixName)
         
         if(SELECTED_DATATYPE == "General") {
@@ -136,11 +137,11 @@ function updateHeatMap(dataInput) {
   }
   
   // Build color scale
-  var maxVal = d3.max(dataProcessed.filter(d => d.val != null), function(d) { return +d.val;} );
+  heatMapMaxVal = d3.max(dataProcessed.filter(d => d.val != null), function(d) { return +d.val;} );
   var minVal = d3.min(dataProcessed.filter(d => d.val != null), function(d) { return +d.val;} );
   var myColor = d3.scaleSequential()
     .interpolator(d3.interpolateInferno)
-    .domain([Math.log10(minVal + 1), Math.log10(maxVal + 1)])
+    .domain([Math.log10(minVal + 1), Math.log10(heatMapMaxVal + 1)])
     
   // Update heatmap
   d3.select("#heatmap svg").selectAll('rect')
@@ -187,22 +188,23 @@ function continuousLegend(colorscale) {
     xTicks.push(data[166].value);
     xTicks.push(data[249].value);
     
-    var maxVal = Math.pow(10, data[249].value);
+    var maxVal = Math.pow(10, data[249].value)-1;
 
     var xAxis = d3.axisBottom(xScale)
         .tickSize(barHeight * 2)
         .tickValues(xTicks)
         .tickFormat(d => {
-            if(maxVal < 100){
-                return Math.round(Math.pow(10, d));
-            } else {
-                return Math.pow(10, d).toExponential(1);
-            }
+            return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(Math.pow(10, d)-1, maxVal)
+            // if(maxVal < 100){
+            //     return Math.round(Math.pow(10, d));
+            // } else {
+            //     return Math.pow(10, d).toExponential(1);
+            // }
         });
         
     d3.select("#heatmaplegend").selectAll("svg").remove();
     var svg = d3.select("#heatmaplegend").append("svg")
-                    .attr('viewBox','-40 0 400 30' )
+                    .attr('viewBox','-40 0 400 58' )
                 .attr('preserveAspectRatio','xMinYMin');
     
     
@@ -222,15 +224,28 @@ function continuousLegend(colorscale) {
       .enter().append("stop")
         .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
         .attr("stop-color", d => d.color);
+        
+    g.append("text")
+      .attr("class", "x label")
+      .attr("text-anchor", "middle")
+      .attr("width", innerWidth)
+      .attr("x", innerWidth/2)
+      .attr("y", 21)
+      .style("fill", "#ff6961")
+      .style("font-size", 14)
+      .text(SELECTED_DATATYPE=="General"?"Videos viewed":SELECTED_DATATYPE);
 
     g.append("rect")
         .attr("width", innerWidth)
         .attr("height", barHeight)
+        .attr("y", 25)
         .style("fill", "url(#myGradient)");
 
     g.append("g")
         .call(xAxis)
+        .attr("transform", "translate(0, 25)")
         .call(g => g.selectAll("text").style("fill", "#ff6961"))
+        .call(g => g.selectAll("text").style("font-size", 15))
         .call(g => g.selectAll("path").style("stroke", "#ff6961"))
         .call(g => g.selectAll("line").style("stroke", "#ff6961"));
 };

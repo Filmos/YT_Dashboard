@@ -1,4 +1,5 @@
 function updateMmmChart(data) {
+  var maxVal = null
   function updateCard(cardId, vid, title) {
     $('#'+cardId+' .MMM-title').text(title)
     
@@ -12,7 +13,9 @@ function updateMmmChart(data) {
       let dat = SELECTED_DATATYPE
       if(SELECTED_DATATYPE=="General") dat = "Times viewed"
       
-      $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[dat].format(vid[dat]))
+      if(maxVal == null) maxVal = vid[dat]
+      console.log(vid[dat], maxVal)
+      $('#'+cardId+' .MMM-value').text(DATATYPES_DEFINITIONS[dat].format(vid[dat], maxVal))
       $('#'+cardId+' .MMM-sub-value').text(" "+DATATYPES_DEFINITIONS[dat].suffixName)
     }
   }
@@ -41,9 +44,9 @@ function updateMmmChart(data) {
       return b.time-a.time
     })
     
-    updateCard("MMM-Min", sorted[0], "Minimum from viewed videos")
-    updateCard("MMM-Med", sorted[Math.floor(sorted.length/2)], "Median from viewed videos")
     updateCard("MMM-Max", sorted[sorted.length-1], "Maximum from viewed videos")
+    updateCard("MMM-Med", sorted[Math.floor(sorted.length/2)], "Median from viewed videos")
+    updateCard("MMM-Min", sorted[0], "Minimum from viewed videos")
     
   }
 }

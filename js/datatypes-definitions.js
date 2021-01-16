@@ -104,9 +104,9 @@ var SELECTED_DATATYPE
       formula: false,
       icon: "fas fa-asterisk",
       color: "primary",
-      format: num => {
+      format: (num, maxN) => {
         let n = (parseFloat(num)||0)
-        if(n>999) n = Math.round(n)
+        if(n>999 || (maxN && maxN>999)) n = Math.round(n)
         return n.toLocaleString()
       },
       userParser: parseInt,

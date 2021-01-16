@@ -1,4 +1,5 @@
 var linePlotChart
+var linePlotMaxValue
 function initLinePlot() {
   linePlotChart = new Chart($('#linePlot'), {
             type: 'line',
@@ -66,7 +67,7 @@ function initLinePlot() {
                         var value = tooltipModel.body[0].lines[0]
                         
                         let dat = DATATYPES_DEFINITIONS[SELECTED_DATATYPE]
-                        tooltipEl.select(".tooltip-value").text(dat.format(value))
+                        tooltipEl.select(".tooltip-value").text(dat.format(value, linePlotMaxValue))
                         tooltipEl.select(".tooltip-sub-value").text(" "+dat.suffixName)
                         
                         if(SELECTED_DATATYPE == "General") {
@@ -113,6 +114,7 @@ var dataFormat = "%Y-%m";
 
 // Data restructuring
 var dataProcessed = [];
+linePlotMaxValue = d3.max(dataX, d => d.value)
 for (const [key, value] of Object.entries(dataX)) {
   dataProcessed.push({x : value.key, y : value.value})
 }
@@ -134,7 +136,7 @@ if(SELECTED_DATATYPE == "General") {
 // Axis ticks
 function normalTicks(v, i, allV) {
   if(!DATATYPES_DEFINITIONS) return
-  return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v)
+  return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(v, linePlotMaxValue)
 }
 function zeroTicks(v, i, allV) {
   if(i == allV.length-1) return 0
