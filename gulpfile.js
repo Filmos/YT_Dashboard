@@ -34,7 +34,7 @@ const banner = ['/*!\n',
 function browserSync(done) {
   browsersync.init({
     server: {
-      baseDir: "./dist/"
+      baseDir: "./docs/"
     },
     port: 3000
   });
@@ -49,7 +49,7 @@ function browserSyncReload(done) {
 
 // Clean vendor
 function clean() {
-  return del(["./vendor/", "./dist/"]);
+  return del(["./vendor/", "./docs/"]);
 }
 
 // Bring third party dependencies from node_modules into vendor directory
@@ -68,7 +68,7 @@ function modules() {
     .pipe(replace('../webfonts', 'webfonts'))
     .pipe(gulp.dest('./vendor'));
   var fontAwesomeWebfonts = gulp.src('./node_modules/@fortawesome/fontawesome-free/webfonts/*')
-    .pipe(gulp.dest('./dist/webfonts'));
+    .pipe(gulp.dest('./docs/webfonts'));
   // jQuery Easing
   var jqueryEasing = gulp.src('./node_modules/jquery.easing/*.js')
     .pipe(gulp.dest('./vendor/jquery-easing'));
@@ -100,7 +100,7 @@ function css() {
     .pipe(cleanCSS())
     .pipe(gulp.src("./vendor/fontawesome-free/css/all.min.css"))
     .pipe(concat('style.min.css'))
-    .pipe(gulp.dest("./dist"))
+    .pipe(gulp.dest("./docs"))
     .pipe(browsersync.stream());
 }
 
@@ -131,7 +131,7 @@ function js() {
     .pipe(gulpif(isMini, babel({presets: ['@babel/env']})))
     .pipe(gulpif(isMini, uglify()))
     .pipe(concat('scripts.min.js'))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('docs'))
     .pipe(browsersync.stream());
 };
 
@@ -139,7 +139,7 @@ function js() {
 function html() {
   return gulp.src('*.html')
     .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('docs'))
     .pipe(browsersync.stream());
 };
 
