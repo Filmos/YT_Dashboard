@@ -156,17 +156,22 @@ function updateHeatMap(dataInput) {
 
 
 function continuousLegend(colorscale) {
+  
+    var domain = colorscale.domain()
     
     var legendscale = d3.scaleLinear()
-        .range(colorscale.domain())
-        .domain(colorscale.domain());
+        .range(domain)
+        .domain(domain);
 
     var data = [];
-  
-    d3.range(colorscale.domain()[0], colorscale.domain()[1], (colorscale.domain()[1] - colorscale.domain()[0])/250).forEach(function(i) {
-        data.push({"color" : colorscale(legendscale.invert(i)), "value" : i})
-    });
-    
+    if(isNaN(domain[0])) {
+      for(let i=0;i<250;i++) {data.push({"color" : "#000000", "value" : (i+1)/250})}
+    }
+    else {
+      d3.range(domain[0], domain[1], (domain[1] - domain[0])/250).forEach(function(i) {
+          data.push({"color" : colorscale(legendscale.invert(i)), "value" : i})
+      });
+    }
     
     var extent = d3.extent(data, d => d.value);
     
@@ -179,8 +184,6 @@ function continuousLegend(colorscale) {
     var xScale = d3.scaleLinear()
         .range([0, innerWidth])
         .domain(extent);
-        
-        console.log(data)
 
     var xTicks = [];
     xTicks.push(data[0].value);
@@ -194,12 +197,8 @@ function continuousLegend(colorscale) {
         .tickSize(barHeight * 2)
         .tickValues(xTicks)
         .tickFormat(d => {
+            if(isNaN(domain[0])) return 0
             return DATATYPES_DEFINITIONS[SELECTED_DATATYPE].format(Math.pow(10, d)-1, maxVal)
-            // if(maxVal < 100){
-            //     return Math.round(Math.pow(10, d));
-            // } else {
-            //     return Math.pow(10, d).toExponential(1);
-            // }
         });
         
     d3.select("#heatmaplegend").selectAll("svg").remove();
